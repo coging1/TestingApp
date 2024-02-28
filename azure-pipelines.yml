@@ -32,7 +32,8 @@ steps:
   name: envFile
   displayName: ‘Download .env file from secure file library’
   inputs:
-  secureFile: .env
+    secureFile: .env
+
 - script: cp -f $(envFile.secureFilePath) .env
   displayName: 'Copy Env File'
 
@@ -44,8 +45,9 @@ steps:
 - task: ArchiveFiles@1
   displayName: 'Archive files'
   inputs:
-  rootFolder: '$(System.DefaultWorkingDirectory)'
-  includeRootFolder: false
-  archiveType: zip
+    rootFolder: '$(System.DefaultWorkingDirectory)'
+    includeRootFolder: false
+    archiveType: zip
+
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'
