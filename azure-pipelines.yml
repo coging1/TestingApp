@@ -24,3 +24,28 @@ steps:
 
 - script: composer install --no-interaction --prefer-dist
   displayName: 'composer install'
+
+- script: php artisan test
+  displayName: 'php artisan test'
+
+- task: DownloadSecureFile@1
+  name: envFile
+  displayName: ‘Download .env file from secure file library’
+  inputs:
+  secureFile: .env
+- script: cp -f $(envFile.secureFilePath) .env
+  displayName: 'Copy Env File'
+
+- script: npm install
+  displayName: 'npm install'
+- script: npm run prod
+  displayName: 'npm run production'
+
+- task: ArchiveFiles@1
+  displayName: 'Archive files'
+  inputs:
+  rootFolder: '$(System.DefaultWorkingDirectory)'
+  includeRootFolder: false
+  archiveType: zip
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'
