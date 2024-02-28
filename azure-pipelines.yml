@@ -1,16 +1,11 @@
-# PHP
-# Test and package your PHP project.
-# Add steps that run tests, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/php
-
 trigger:
-- main
+- master
 
 pool:
   vmImage: ubuntu-latest
 
 variables:
-  phpVersion: 7.2
+  phpVersion: 8.1
 
 steps:
 - script: |
@@ -19,35 +14,45 @@ steps:
     sudo update-alternatives --set phpdbg /usr/bin/phpdbg$(phpVersion)
     sudo update-alternatives --set php-cgi /usr/bin/php-cgi$(phpVersion)
     sudo update-alternatives --set phar.phar /usr/bin/phar.phar$(phpVersion)
-    php -version
   displayName: 'Use PHP version $(phpVersion)'
 
 - script: composer install --no-interaction --prefer-dist
   displayName: 'composer install'
 
-- script: php artisan test
-  displayName: 'php artisan test'
-
-- task: DownloadSecureFile@1
-  name: envFile
-  displayName: ‘Download .env file from secure file library’
+- task: NodeTool@0
   inputs:
-    secureFile: .env
+    versionSpec: '18.x'
+  displayName: 'Install NodeJS'
 
-- script: cp -f $(envFile.secureFilePath) .env
-  displayName: 'Copy Env File'
-
-- script: npm install
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: '$(Build.SourcesDirectory)'
   displayName: 'npm install'
-- script: npm run prod
-  displayName: 'npm run production'
 
-- task: ArchiveFiles@1
-  displayName: 'Archive files'
+- task: Npm@1
   inputs:
-    rootFolder: '$(System.DefaultWorkingDirectory)'
-    includeRootFolder: false
-    archiveType: zip
+    command: 'custom'
+    workingDir: '$(Build.SourcesDirectory)'
+    customCommand: 'run build'
+  displayName: 'npm build'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)'
+    Contents: |
+      **/**
+      !**/node_modules/**
+      !**/.git/**
+      !**/storage/**
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    CleanTargetFolder: true
+    OverWrite: true
+  displayName: 'Copy files to publish directory'
 
 - task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact: drop'
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+    StoreAsTar: true
