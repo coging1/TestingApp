@@ -1,8 +1,8 @@
 {{-- sidebar toggle --}}
 <nav class="navbar navbar-dark navbar-theme-primary px-4 col-12 d-lg-none">
 	<a class="navbar-brand me-lg-5" href="{{ route('dashboard') }}">
-		<img class="navbar-brand-dark" src="{{ asset('img/brand/light.svg') }}" alt="Volt logo" />
-		<img class="navbar-brand-light" src="{{ asset('img/brand/dark.svg') }}" alt="Volt logo" />
+		<img class="navbar-brand-dark" src="{{ asset('img/brand/RAFI LOGO no BG.png') }}" alt="RAFI logo" />
+		<img class="navbar-brand-light" src="{{ asset('img/brand/RAFI LOGO no BG.png') }}" alt="RAFI logo" />
 	</a>
 	<div class="d-flex align-items-center">
 		<button class="navbar-toggler d-lg-none collapsed" type="button" data-bs-toggle="collapse"
@@ -46,7 +46,7 @@
 			<li class="nav-item">
 				<a href="{{ route('dashboard') }}">
 					<span class="sidebar-icon">
-						<img src="{{ asset('img/brand/light.svg') }}" height="50" width="50" alt="Volt Logo">
+						<img src="{{ asset('img/brand/RAFI LOGO no BG.png') }}" height="50" width="50" alt="RAFI Logo">
 					</span>
 					<span class="mt-1 ms-1 sidebar-text">Testing App</span>
 				</a>
@@ -69,7 +69,7 @@
 					</span>
 					<span class="sidebar-text">Users</span>
 				</a>
-			</li>
+			</li> --}}
 			<li class="nav-item {{ request()->routeIs('contacts.*') ? 'active' : '' }}">
 				<a href="{{ route('contacts.index') }}" class="nav-link">
 					<span class="sidebar-icon">
@@ -78,7 +78,7 @@
 					<span class="sidebar-text">Contacts</span>
 				</a>
 			</li>
-      <li class="nav-item {{ request()->routeIs('categories.*') ? 'active' : '' }}">
+      {{-- <li class="nav-item {{ request()->routeIs('categories.*') ? 'active' : '' }}">
 				<a href="{{ route('categories.index') }}" class="nav-link">
 					<span class="sidebar-icon">
 						<i class="icon icon-xs me-2  bi bi-list" style="color:white;"></i>
