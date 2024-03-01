@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Crypt;
 //use Illuminate\Support\Facades\DB;
 
 use App\Models\User;
-//use App\Models\Contact\Contact;
+use App\Models\Contact\Contact;
 //use App\Models\Category\Category;
 
 class DashboardController extends Controller
@@ -17,10 +17,10 @@ class DashboardController extends Controller
   public function index(): View
   {
         // Count all
-        $usersCount = User::count();
         //$users = DB::select("CALL SelectAllUsers");
         //$usersCount = count($users);
-        //$contactsCount = Contact::count();
+        $usersCount = User::count();
+        $contactsCount = Contact::count();
         //$categoriesCount = Category::count();
 
         // String to encrypt
@@ -31,7 +31,7 @@ class DashboardController extends Controller
         $decryptedData = Crypt::decryptString($encryptedData);
     
         //return view('dashboard', compact('usersCount', 'contactsCount', 'categoriesCount', 'encryptedData', 'decryptedData'));
-        return view('dashboard', compact('usersCount','encryptedData', 'decryptedData'));
+        return view('dashboard', compact('usersCount', 'contactsCount', 'encryptedData', 'decryptedData'));
   }
 
 }
