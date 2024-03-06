@@ -1,19 +1,24 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\ApiController;
+use App\Http\Controllers\Api\ContactControllerAPI;
+use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Users
+Route::middleware([EnsureFrontendRequestsAreStateful::class])->group(function () {
+    Route::get('/users', [ApiController::class, 'getUsers']);
+    Route::post('/users', [ApiController::class, 'createUser']);
+    Route::get('/users/{id}', [ApiController::class, 'getUser']);
+    Route::put('/users/{id}', [ApiController::class, 'updateUser']);
+    Route::delete('/users/{id}', [ApiController::class, 'deleteUser']);
+});
+
+// Contacts
+Route::middleware([EnsureFrontendRequestsAreStateful::class])->group(function () {
+  Route::get('/contacts', [ContactControllerAPI::class, 'getContacts']);
+  Route::post('/contacts', [ContactControllerAPI::class, 'storeContact']);
+  Route::put('/contacts/{id}', [ContactControllerAPI::class, 'updateContact']);
+  Route::delete('/contacts/{id}', [ContactControllerAPI::class, 'deleteContact']);
 });

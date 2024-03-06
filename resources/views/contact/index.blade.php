@@ -60,39 +60,39 @@
                 @forelse ($contacts as $contact)
                     <tr>
                         <td valign="middle">
-                            <span class="fw-normal">{{ $contact->first_name }}</span>
+                            <span class="fw-normal">{{ $contact['first_name'] }}</span>
                         </td>
                         <td valign="middle">
-                            <span class="fw-normal">{{ $contact->middle_name }}</span>
+                            <span class="fw-normal">{{ $contact['middle_name'] }}</span>
                         </td>
                         <td valign="middle">
-                            <span class="fw-normal">{{ $contact->last_name }}</span>
+                            <span class="fw-normal">{{ $contact['last_name'] }}</span>
                         </td>
                         <td valign="middle">
-                          <span class="fw-normal">{{ $contact->barangay }}</span>
+                          <span class="fw-normal">{{ $contact['barangay'] }}</span>
                       </td>
                       <td valign="middle">
-                          <span class="fw-normal">{{ $contact->street }}</span>
+                          <span class="fw-normal">{{ $contact['street'] }}</span>
                       </td>
-                        <td valign="middle"><span class="fw-normal">{{ $contact->email_address }}</span></td>
-                        <td valign="middle"><span class="fw-normal">{{ $contact->created_at }}</span></td>
-                        <td valign="middle"><span class="fw-normal">{{ $contact->updated_at }}</span></td>
+                        <td valign="middle"><span class="fw-normal">{{ $contact['email_address'] }}</span></td>
+                        <td valign="middle"><span class="fw-normal">{{ \Carbon\Carbon::parse($contact['created_at'])->toDateString() }}</span></td>
+                        <td valign="middle"><span class="fw-normal">{{ \Carbon\Carbon::parse($contact['updated_at'])->toDateString() }}</span></td>
                         <td valign="middle">
 
-                            <a href="{{ route('contacts.show', $contact->id) }}"
+                            <a href="{{ route('contacts.show', $contact['id']) }}"
                                 class="btn btn-gray-800 animate-up-2">
                                 <i class="icon icon-xs me-2 bi bi-pencil-square"></i>Edit</a>
 
                             <button class="btn btn-danger animate-up-2" type="button" data-bs-toggle="modal"
-                                data-bs-target="#modal-delete-{{ $contact->id }}">
+                                data-bs-target="#modal-delete-{{ $contact['id'] }}">
                                 <i class="icon icon-xs me-2 bi bi-trash3-fill"></i>Delete</button>
 
                             {{-- modal --}}
-                            <div class="modal fade" id="modal-delete-{{ $contact->id }}" tabindex="-1" role="dialog"
+                            <div class="modal fade" id="modal-delete-{{ $contact['id'] }}" tabindex="-1" role="dialog"
                                 aria-labelledby="modal-default" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
-                                        <form action="{{ route('contacts.destroy', $contact->id) }}" method="POST">
+                                        <form action="{{ route('contacts.destroy', $contact['id']) }}" method="POST">
 
                                             @csrf
                                             @method('DELETE')
